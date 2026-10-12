@@ -1,0 +1,11 @@
+# Informes y datos de clientes (no subir)
+*.html
+*-reales/
+resultados/
+informe*.json
+# Apuntes personales
+ESTUDIO.md
+# Python
+__pycache__/
+*.pyc
+.ruff_cache/

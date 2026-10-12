@@ -1,0 +1,70 @@
+=====================================================================
+ ESCUDO-INFORME v1.1.0  ·  HOJA DE COMANDOS
+ Andrés Clark (drewagaiin)  ·  Python (nada que instalar)
+=====================================================================
+
+--- 1) GENERAR LA SALIDA JSON DE CADA HERRAMIENTA --------------------
+sudo ssh-sentinel --format json                 > ssh.json
+correo-escudo analizar correos/ --format json   > correo.json
+cuentas-escudo logins.csv --salida json          > cuentas.json
+(en Windows PowerShell)  .\windows-escudo.ps1 -Json > windows.json
+
+--- 0) TODO EN UN SOLO COMANDO (lo mas comodo) ----------------------
+Corre las herramientas que tengas, junta los JSON y crea los DOS
+informes en ~/escudo-reportes/FECHA/ (cliente + tecnico).
+
+EJEMPLOS LISTOS PARA COPIAR (cambia el nombre y los archivos):
+
+1) Solo el correo de un cliente (info publica, para tocar la puerta):
+./escudo-reporte.sh --empresa "Ferreteria El Clavo" --dominio elclavo.com --abrir
+
+2) Revisar si le robaron cuentas (CSV de logins M365/Google):
+./escudo-reporte.sh --empresa "Ferreteria El Clavo" --cuentas logins.csv --pais PA --abrir
+
+3) Analizar un correo sospechoso (.eml):
+./escudo-reporte.sh --empresa "Ferreteria El Clavo" --correo sospechoso.eml --abrir
+
+4) Incluir el resultado del Windows (ya tienes windows.json):
+./escudo-reporte.sh --empresa "Ferreteria El Clavo" --windows windows.json --abrir
+
+5) Auditoria completa (correo + cuentas + Windows + SSH):
+./escudo-reporte.sh --empresa "Ferreteria El Clavo" --dominio elclavo.com --cuentas logins.csv --windows windows.json --abrir
+
+6) Solo los accesos SSH de este equipo:
+./escudo-reporte.sh --empresa "Mi Servidor" --abrir
+
+COMO SE ARMA: --empresa "..."  +  las piezas que necesites  +  --abrir
+Piezas: --dominio DOM | --correo RUTA.eml | --cuentas logins.csv |
+        --windows windows.json | --pais PA | --no-ssh
+(Si una herramienta no esta en el PATH:
+   CORREO_ESCUDO=~/correo-escudo/correo-escudo.sh ./escudo-reporte.sh ... )
+
+--- 2) O PASO A PASO: ARMAR LOS INFORMES ----------------------------
+Solo el informe del cliente:
+./escudo-informe.py ssh.json correo.json cuentas.json windows.json -o informe.html --empresa "Nombre del Cliente"
+
+Cliente + GUIA TECNICA (para ti, con el como arreglar cada cosa):
+./escudo-informe.py *.json -o informe.html --tecnico --empresa "Nombre del Cliente"
+   (crea informe.html y informe-tecnico.html)
+   o con nombre propio:  --tecnico guia.html
+
+Apuntando a una carpeta con todos los .json:
+./escudo-informe.py resultados/ -o informe.html --tecnico --empresa "Cliente"
+
+--- 3) VERLO / ENTREGARLO -------------------------------------------
+informe.html          -> es el que le entregas al CLIENTE (sin tecnicismos).
+informe-tecnico.html  -> es TU guia de trabajo (pasos, comandos, MITRE, CIS).
+Abrir en el navegador. Para PDF: Ctrl+P > Guardar como PDF.
+echo $?    (0 bien · 1 mejorable · 3 grave · 2 error)
+
+--- PRUEBAS ---------------------------------------------------------
+python3 -m unittest discover -s tests -v
+
+--- SUBIR A GITHUB (repo nuevo "escudo-informe", sin README/licencia) ---
+cd ~/Downloads/escudo-informe
+git init
+git add .
+git commit -m "escudo-informe v1.1.0: informe del cliente + guia tecnica de solucion"
+git branch -M main
+git remote add origin https://github.com/drewagaiin/escudo-informe.git
+git push -u origin main

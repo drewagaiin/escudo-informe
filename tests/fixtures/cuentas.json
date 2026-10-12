@@ -1,0 +1,2 @@
+{"tool": "cuentas-escudo", "version": "1.0.0", "schema_version": 1, "type": "finding", "severity": "critico", "code": "BRUTE-SUCCESS", "user": "ana.perez@empresa.com.pa", "message": "12 intentos fallidos seguidos y luego un inicio de sesión correcto desde 203.0.113.9. Posible cuenta adivinada por fuerza bruta.", "mitre": "T1110.001", "evidence": ["éxito en línea 14"]}
+{"tool": "cuentas-escudo", "version": "1.0.0", "schema_version": 1, "type": "summary", "verdict": "PELIGROSO", "verdict_code": 3, "events": 13, "users": 1, "findings": 1}

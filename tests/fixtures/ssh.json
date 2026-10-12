@@ -1,0 +1,39 @@
+{
+  "tool": "ssh-sentinel",
+  "version": "1.1.0",
+  "host": "vm",
+  "generated": "2026-10-08T21:39:26Z",
+  "source": "archivos: ../ssh-sentinel/tests/fixtures/ataques-kali.log",
+  "period": {"from": "2026-10-05 03:00:00", "to": "2026-10-05 07:00:00"},
+  "thresholds": {"threshold": 10, "window_min": 10, "spray": 5, "after_fail": 5, "distributed": 20},
+  "summary": {"failed": 29, "accepted": 2, "attacking_ips": 4, "alerts": 4, "worst": "critical"},
+  "firewall": "ufw",
+  "alerts": [
+    {"severity": "critical", "id": "SSH-COMPROMISE", "title": "Acceso exitoso de 'deploy' después de 7 intentos fallidos contra esa cuenta", "ip": "192.0.2.50", "time": "2026-10-05 05:05:00", "mitre": "T1078, T1110"},
+    {"severity": "high", "id": "SSH-BRUTE", "title": "Fuerza bruta: 15 intentos fallidos en menos de 10 minutos", "ip": "203.0.113.10", "time": "2026-10-05 03:01:52", "mitre": "T1110.001"},
+    {"severity": "high", "id": "SSH-SPRAY", "title": "Password spraying: 6 usuarios distintos probados", "ip": "198.51.100.7", "time": "2026-10-05 03:55:00", "mitre": "T1110.003"},
+    {"severity": "low", "id": "SSH-PASSWORD", "title": "1 acceso(s) con contraseña en lugar de llave", "ip": "-", "time": "", "mitre": "T1110"}
+  ],
+  "ips": [
+    {"ip": "203.0.113.10", "failed": 15, "max_in_window": 15, "users": 1, "accepted": 0, "first": "2026-10-05 03:00:00", "last": "2026-10-05 03:01:52", "usernames": "root"},
+    {"ip": "192.0.2.50", "failed": 7, "max_in_window": 7, "users": 1, "accepted": 1, "first": "2026-10-05 05:00:00", "last": "2026-10-05 05:02:00", "usernames": "deploy"},
+    {"ip": "198.51.100.7", "failed": 6, "max_in_window": 3, "users": 6, "accepted": 0, "first": "2026-10-05 03:30:00", "last": "2026-10-05 03:55:00", "usernames": "admin,oracle,test,ubuntu,postgres,git"},
+    {"ip": "203.0.113.99", "failed": 1, "max_in_window": 1, "users": 1, "accepted": 0, "first": "2026-10-05 07:00:00", "last": "2026-10-05 07:00:00", "usernames": "(sin-nombre)"}
+  ],
+  "users": [
+    {"user": "root", "attempts": 15, "ips": 1},
+    {"user": "deploy", "attempts": 7, "ips": 1},
+    {"user": "(sin-nombre)", "attempts": 1, "ips": 1},
+    {"user": "admin", "attempts": 1, "ips": 1},
+    {"user": "git", "attempts": 1, "ips": 1},
+    {"user": "oracle", "attempts": 1, "ips": 1},
+    {"user": "postgres", "attempts": 1, "ips": 1},
+    {"user": "test", "attempts": 1, "ips": 1},
+    {"user": "ubuntu", "attempts": 1, "ips": 1}
+  ],
+  "logins": [
+    {"time": "2026-10-05 05:05:00", "user": "deploy", "ip": "192.0.2.50", "method": "password", "failed_before": 7},
+    {"time": "2026-10-05 06:00:00", "user": "kali", "ip": "10.0.0.5", "method": "publickey", "failed_before": 0}
+  ],
+  "block_suggestions": ["192.0.2.50", "203.0.113.10", "198.51.100.7"]
+}

@@ -1,0 +1,7 @@
+target-version = "py39"
+line-length = 120
+[lint]
+select = ["E","F","W","B","S","UP","C4","RUF"]
+ignore = ["UP009","RUF001","RUF002","RUF059","S110","RUF005"]
+[lint.per-file-ignores]
+"tests/*" = ["S"]
